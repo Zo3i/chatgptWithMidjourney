@@ -9,6 +9,8 @@ import {
 } from "./store";
 import { showToast } from "./components/ui-lib";
 import { ACCESS_CODE_PREFIX } from "./constant";
+import { RequestBody } from "./api/midjourney/RequestBody";
+import { requestMidJourney } from "./api/common";
 
 const TIME_OUT_MS = 60000;
 
@@ -43,6 +45,23 @@ const makeRequestParam = (
   };
 };
 
+const makeRequestImageParam = (
+  action: string,
+  fast: boolean,
+  options?: {
+    imageId: string | undefined;
+    index: number | undefined;
+    prompt: string | undefined;
+  },
+): RequestBody => {
+  return <RequestBody>{
+    action,
+    fast,
+    imageId: options?.imageId,
+    index: options?.index,
+    prompt: options?.prompt,
+  };
+};
 export function getHeaders() {
   const accessStore = useAccessStore.getState();
   let headers: Record<string, string> = {};
@@ -75,6 +94,16 @@ export function requestOpenaiClient(path: string) {
     });
 }
 
+export function requestMidjourney(path: string) {
+  const midJourneyAPI = useAccessStore.getState().midJourneyAPI;
+  return (body: any, method = "POST") =>
+    fetch(midJourneyAPI + path, {
+      method,
+      body: body && JSON.stringify(body),
+      headers: getHeaders(),
+    });
+}
+
 export async function requestChat(
   messages: Message[],
   options?: {
@@ -92,6 +121,42 @@ export async function requestChat(
     return response;
   } catch (error) {
     console.error("[Request Chat] ", error, res.body);
+  }
+}
+
+export async function requestImage(
+  action: string,
+  fast: boolean,
+  prompt?: string,
+  index?: number,
+  imageId?: string,
+) {
+  try {
+    const midJourneyAPI = useAccessStore.getState().midJourneyAPI;
+    prompt = prompt?.replaceAll("/mj", "");
+
+    const req: RequestBody = makeRequestImageParam(action, fast, {
+      prompt,
+      index,
+      imageId,
+    });
+
+    const res = await requestMidjourney("/v1/request")(req);
+    return res.json();
+    // handle the response here, for example:
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+export async function requestImageResult(taskId: string) {
+  try {
+    const midJourneyAPI = useAccessStore.getState().midJourneyAPI;
+    const res = await requestMidjourney("/v1/webhook/" + taskId)({});
+    return res.json();
+    // handle the response here, for example:
+  } catch (error) {
+    console.error("Error:", error);
   }
 }
 

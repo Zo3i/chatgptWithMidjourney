@@ -48,6 +48,18 @@ export function auth(req: NextRequest) {
     };
   }
 
+  // 注入midjourneyAPI
+  const midJourneyKey = serverConfig.midJourneyKey;
+  console.log(">>> 注入midjourneyAPI: ", midJourneyKey);
+  if (midJourneyKey) {
+    req.headers.set("token", midJourneyKey);
+  } else {
+    return {
+      error: true,
+      msg: "Empty Midjourney Api Key",
+    };
+  }
+
   // if user does not provide an api key, inject system api key
   if (!token) {
     const apiKey = serverConfig.apiKey;

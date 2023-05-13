@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { type ChatCompletionResponseMessage } from "openai";
+import { ChatCompletionResponseMessage } from "openai";
 import {
   ControllerPool,
   requestChatStream,
+  requestImage,
+  requestImageResult,
   requestWithPrompt,
 } from "../requests";
 import { trimTopic } from "../utils";
@@ -21,6 +23,8 @@ export type Message = ChatCompletionResponseMessage & {
   isError?: boolean;
   id?: number;
   model?: ModelType;
+  taskId?: string;
+  type?: "chat" | "image";
 };
 
 export function createMessage(override: Partial<Message>): Message {
@@ -233,7 +237,9 @@ export const useChatStore = create<ChatStore>()(
           session.lastUpdate = Date.now();
         });
         get().updateStat(message);
-        get().summarizeSession();
+        if (!message.type || message.type != "image") {
+          get().summarizeSession();
+        }
       },
 
       async onUserInput(content) {
@@ -277,46 +283,127 @@ export const useChatStore = create<ChatStore>()(
 
         // make request
         console.log("[User Input] ", sendMessages);
-        requestChatStream(sendMessages, {
-          onMessage(content, done) {
-            // stream response
-            if (done) {
+        let lastMessage = sendMessages[sendMessages.length - 1];
+        if (lastMessage.content.startsWith("/mj")) {
+          console.log(">>> 绘图模式 <<<");
+          // 请求API
+          let res = await requestImage(
+            "CREATE_IMAGE",
+            true,
+            lastMessage.content,
+          );
+          console.log(">>> 绘图结果：", res);
+          botMessage.streaming = false;
+          botMessage.type = "image";
+          if (res.success) {
+            botMessage.taskId = res.result.taskId;
+            let status = "";
+            // 起一个定时器每5秒请求一次直到返回状态为2
+            let timer = setInterval(async () => {
+              let response = await requestImageResult(res.result.taskId);
+              console.log(">>> 正在绘图：", response);
+              if (response.success) {
+                if (status !== response.result.status) {
+                  const testMsg: Message = createMessage({
+                    role: "assistant",
+                    streaming: true,
+                    id: userMessage.id! + 1,
+                    model: modelConfig.model,
+                    type: "image",
+                  });
+                  const sessionIndex = get().currentSessionIndex;
+                  const messageIndex =
+                    get().currentSession().messages.length + 1;
+                  get().updateCurrentSession((session) => {
+                    session.messages.push(testMsg);
+                    testMsg.content = response.result.msg;
+                    testMsg.streaming = false;
+                  });
+                  get().onNewMessage(botMessage);
+                  ControllerPool.remove(
+                    sessionIndex,
+                    testMsg.id ?? messageIndex,
+                  );
+                  status = response.result.status;
+                }
+                // 删除定时器
+                if (response.result.status === 2) {
+                  clearInterval(timer);
+                  // 发图片 ![](图片链接)
+                  const imgMsg: Message = createMessage({
+                    role: "assistant",
+                    streaming: true,
+                    id: userMessage.id! + 1,
+                    model: modelConfig.model,
+                    type: "image",
+                  });
+                  const sessionIndex = get().currentSessionIndex;
+                  const messageIndex =
+                    get().currentSession().messages.length + 1;
+                  get().updateCurrentSession((session) => {
+                    session.messages.push(imgMsg);
+                    imgMsg.content = `![${response.result.prompt}](${response.result.imageUrl})`;
+                    imgMsg.streaming = false;
+                  });
+                  get().onNewMessage(botMessage);
+                  ControllerPool.remove(
+                    sessionIndex,
+                    imgMsg.id ?? messageIndex,
+                  );
+                }
+              }
+            }, 5000);
+          } else {
+            botMessage.content = res.message;
+          }
+
+          get().onNewMessage(botMessage);
+          ControllerPool.remove(sessionIndex, botMessage.id ?? messageIndex);
+        } else {
+          requestChatStream(sendMessages, {
+            onMessage(content, done) {
+              // stream response
+              if (done) {
+                botMessage.streaming = false;
+                botMessage.content = content;
+                get().onNewMessage(botMessage);
+                ControllerPool.remove(
+                  sessionIndex,
+                  botMessage.id ?? messageIndex,
+                );
+              } else {
+                botMessage.content = content;
+                set(() => ({}));
+              }
+            },
+            onError(error, statusCode) {
+              const isAborted = error.message.includes("aborted");
+              if (statusCode === 401) {
+                botMessage.content = Locale.Error.Unauthorized;
+              } else if (!isAborted) {
+                botMessage.content += "\n\n" + Locale.Store.Error;
+              }
               botMessage.streaming = false;
-              botMessage.content = content;
-              get().onNewMessage(botMessage);
+              userMessage.isError = !isAborted;
+              botMessage.isError = !isAborted;
+
+              set(() => ({}));
               ControllerPool.remove(
                 sessionIndex,
                 botMessage.id ?? messageIndex,
               );
-            } else {
-              botMessage.content = content;
-              set(() => ({}));
-            }
-          },
-          onError(error, statusCode) {
-            const isAborted = error.message.includes("aborted");
-            if (statusCode === 401) {
-              botMessage.content = Locale.Error.Unauthorized;
-            } else if (!isAborted) {
-              botMessage.content += "\n\n" + Locale.Store.Error;
-            }
-            botMessage.streaming = false;
-            userMessage.isError = !isAborted;
-            botMessage.isError = !isAborted;
-
-            set(() => ({}));
-            ControllerPool.remove(sessionIndex, botMessage.id ?? messageIndex);
-          },
-          onController(controller) {
-            // collect controller for stop/retry
-            ControllerPool.addController(
-              sessionIndex,
-              botMessage.id ?? messageIndex,
-              controller,
-            );
-          },
-          modelConfig: { ...modelConfig },
-        });
+            },
+            onController(controller) {
+              // collect controller for stop/retry
+              ControllerPool.addController(
+                sessionIndex,
+                botMessage.id ?? messageIndex,
+                controller,
+              );
+            },
+            modelConfig: { ...modelConfig },
+          });
+        }
       },
 
       getMemoryPrompt() {
@@ -409,14 +496,23 @@ export const useChatStore = create<ChatStore>()(
           session.topic === DEFAULT_TOPIC &&
           countMessages(session.messages) >= SUMMARIZE_MIN_LEN
         ) {
-          requestWithPrompt(session.messages, Locale.Store.Prompt.Topic, {
-            model: "gpt-3.5-turbo",
-          }).then((res) => {
-            get().updateCurrentSession(
-              (session) =>
-                (session.topic = res ? trimTopic(res) : DEFAULT_TOPIC),
-            );
-          });
+          if (
+            session.messages[session.messages.length - 1].content.startsWith(
+              "/mj",
+            )
+          ) {
+            console.log(">>> 绘图模式 <<<");
+            return;
+          } else {
+            requestWithPrompt(session.messages, Locale.Store.Prompt.Topic, {
+              model: "gpt-3.5-turbo",
+            }).then((res) => {
+              get().updateCurrentSession(
+                (session) =>
+                  (session.topic = res ? trimTopic(res) : DEFAULT_TOPIC),
+              );
+            });
+          }
         }
 
         const modelConfig = session.mask.modelConfig;
