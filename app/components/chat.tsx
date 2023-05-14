@@ -624,6 +624,7 @@ export function Chat() {
     messages.clickedList.push("u" + index);
     let opMsg = `/mj UPSCALE|${messages.imageId}|${index}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+    scrollToBottom();
   };
 
   const VARIATION = (messages: Message, index: any) => {
@@ -631,6 +632,7 @@ export function Chat() {
     messages.clickedList.push("v" + index);
     let opMsg = `/mj VARIATION|${messages.imageId}|${index}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+    scrollToBottom();
   };
 
   const RESET = (messages: Message) => {
@@ -638,6 +640,7 @@ export function Chat() {
     messages.clickedList.push("r");
     let opMsg = `/mj RESET|${messages.imageId}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+    scrollToBottom();
   };
 
   return (

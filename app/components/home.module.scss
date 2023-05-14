@@ -575,6 +575,14 @@
 
 .imageResult {
   margin-left: 10px;
+  max-width: 100%;
+}
+
+@media (min-width: 200px) {
+  .imageResult {
+    margin-left: 10px;
+    max-width: 50%;
+  }
 }
 
 .imageResultBnt {
