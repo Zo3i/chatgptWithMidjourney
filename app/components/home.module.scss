@@ -571,3 +571,41 @@
   height: 100%;
   width: 100%;
 }
+
+
+.imageResult {
+  margin-left: 10px;
+}
+
+.imageResultBnt {
+  color: #ffffff;
+  background-color: #4d5057;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-top: 2px;
+  //border-radius: 5px;
+
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.imageResultBntClick {
+  color: #ffffff;
+  background-color: #5764f2;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-top: 2px;
+  //border-radius: 5px;
+
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}

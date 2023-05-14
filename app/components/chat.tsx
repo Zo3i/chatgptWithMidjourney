@@ -619,6 +619,27 @@ export function Chat() {
     },
   });
 
+  const UPSCALE = (messages: Message, index: any) => {
+    setIsLoading(true);
+    messages.clickedList.push("u" + index);
+    let opMsg = `/mj UPSCALE|${messages.imageId}|${index}`;
+    chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+  };
+
+  const VARIATION = (messages: Message, index: any) => {
+    setIsLoading(true);
+    messages.clickedList.push("v" + index);
+    let opMsg = `/mj VARIATION|${messages.imageId}|${index}`;
+    chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+  };
+
+  const RESET = (messages: Message) => {
+    setIsLoading(true);
+    messages.clickedList.push("r");
+    let opMsg = `/mj RESET|${messages.imageId}`;
+    chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+  };
+
   return (
     <div className={styles.chat} key={session.id}>
       <div className="window-header">
@@ -779,6 +800,102 @@ export function Chat() {
                     <div className={styles["chat-message-action-date"]}>
                       {message.date.toLocaleString()}
                     </div>
+                    {message.type && message.type == "imageResult" && (
+                      <div>
+                        <div className={styles["imageResult"]}>
+                          <button
+                            className={
+                              message.clickedList.includes("u1")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => UPSCALE(message, 1)}
+                          >
+                            U 1
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("u2")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => UPSCALE(message, 2)}
+                          >
+                            U 2
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("u3")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => UPSCALE(message, 3)}
+                          >
+                            U 3
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("u4")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => UPSCALE(message, 4)}
+                          >
+                            U 4
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("v1")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => VARIATION(message, 1)}
+                          >
+                            V 1
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("v2")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => VARIATION(message, 2)}
+                          >
+                            V 2
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("v3")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => VARIATION(message, 3)}
+                          >
+                            V 3
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("v4")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => VARIATION(message, 4)}
+                          >
+                            V 4
+                          </button>
+                          <button
+                            className={
+                              message.clickedList.includes("r")
+                                ? styles["imageResultBntClick"]
+                                : styles["imageResultBnt"]
+                            }
+                            onClick={() => RESET(message)}
+                          >
+                            Reset
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

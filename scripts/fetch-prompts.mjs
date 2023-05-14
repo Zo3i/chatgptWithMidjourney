@@ -50,14 +50,14 @@ async function fetchEN() {
 async function main() {
   Promise.all([fetchCN(), fetchEN()])
     .then(([cn, en]) => {
-      cn.push([
-        "mj 绘图模式",
-        "输入mj 后面跟上提示词\n"
-      ])
-      en.push([
-        "mj draw mode",
-        "input mj and the prompt word\n"
-        ])
+      // cn.push([
+      //   "mj 绘图模式",
+      //   "输入mj 后面跟上提示词\n"
+      // ])
+      // en.push([
+      //   "mj draw mode",
+      //   "input mj and the prompt word\n"
+      //   ])
       fs.writeFile(FILE, JSON.stringify({ cn, en }));
     })
     .catch((e) => {

@@ -24,7 +24,9 @@ export type Message = ChatCompletionResponseMessage & {
   id?: number;
   model?: ModelType;
   taskId?: string;
-  type?: "chat" | "image";
+  imageId?: string;
+  clickedList?: [];
+  type?: "chat" | "image" | "imageResult";
 };
 
 export function createMessage(override: Partial<Message>): Message {
@@ -237,7 +239,7 @@ export const useChatStore = create<ChatStore>()(
           session.lastUpdate = Date.now();
         });
         get().updateStat(message);
-        if (!message.type || message.type != "image") {
+        if (!message.type || !message.type.includes("image")) {
           get().summarizeSession();
         }
       },
@@ -281,50 +283,80 @@ export const useChatStore = create<ChatStore>()(
           session.messages.push(botMessage);
         });
 
+        let res = {};
         // make request
         console.log("[User Input] ", sendMessages);
         let lastMessage = sendMessages[sendMessages.length - 1];
+        let op = "";
         if (lastMessage.content.startsWith("/mj")) {
           console.log(">>> 绘图模式 <<<");
           // 请求API
-          let res = await requestImage(
-            "CREATE_IMAGE",
-            true,
-            lastMessage.content,
-          );
+          if (lastMessage.content.startsWith("/mj UPSCALE")) {
+            let ops = lastMessage.content.split("|");
+            op = "UPSCALE";
+            res = await requestImage(
+              "UPSCALE",
+              true,
+              undefined,
+              Number(ops[2]),
+              ops[1],
+            );
+          } else if (lastMessage.content.startsWith("/mj VARIATION")) {
+            let ops = lastMessage.content.split("|");
+            op = "VARIATION";
+            res = await requestImage(
+              "VARIATION",
+              true,
+              undefined,
+              Number(ops[2]),
+              ops[1],
+            );
+          } else if (lastMessage.content.startsWith("/mj RESET")) {
+            let ops = lastMessage.content.split("|");
+            op = "RESET";
+            res = await requestImage(
+              "RESET",
+              true,
+              undefined,
+              undefined,
+              ops[1],
+            );
+          } else {
+            res = await requestImage("CREATE_IMAGE", true, lastMessage.content);
+          }
+
+          let hisMsg = [];
           console.log(">>> 绘图结果：", res);
-          botMessage.streaming = false;
-          botMessage.type = "image";
+          get().updateCurrentSession((session) => {
+            botMessage.streaming = false;
+            botMessage.type = "image";
+          });
           if (res.success) {
+            hisMsg.push(res.result.msg);
             botMessage.taskId = res.result.taskId;
-            let status = "";
-            // 起一个定时器每5秒请求一次直到返回状态为2
+            let status = 0;
+            // 起一个定时器每5秒请求一次直到返回状态大于2
             let timer = setInterval(async () => {
               let response = await requestImageResult(res.result.taskId);
               console.log(">>> 正在绘图：", response);
               if (response.success) {
-                if (status !== response.result.status) {
-                  const testMsg: Message = createMessage({
-                    role: "assistant",
-                    streaming: true,
-                    id: userMessage.id! + 1,
-                    model: modelConfig.model,
-                    type: "image",
-                  });
-                  const sessionIndex = get().currentSessionIndex;
-                  const messageIndex =
-                    get().currentSession().messages.length + 1;
-                  get().updateCurrentSession((session) => {
-                    session.messages.push(testMsg);
-                    testMsg.content = response.result.msg;
-                    testMsg.streaming = false;
-                  });
-                  get().onNewMessage(botMessage);
-                  ControllerPool.remove(
-                    sessionIndex,
-                    testMsg.id ?? messageIndex,
-                  );
+                if (status == 0 || status !== response.result.status) {
+                  hisMsg.push(response.result.msg);
+                  let hisMsgGether = "";
+                  if (hisMsg.length > 1) {
+                    // 除了最后一次全部加 ～～～～
+                    for (var i = 0; i < hisMsg.length - 1; i++) {
+                      hisMsgGether += "~~" + hisMsg[i] + "~~" + "\n";
+                    }
+                    hisMsgGether += hisMsg[hisMsg.length - 1];
+                  } else {
+                    hisMsgGether = hisMsg[0];
+                  }
+                  botMessage.content = hisMsgGether;
                   status = response.result.status;
+                  get().updateCurrentSession((session) => {
+                    botMessage.streaming = false;
+                  });
                 }
                 // 删除定时器
                 if (response.result.status === 2) {
@@ -335,7 +367,8 @@ export const useChatStore = create<ChatStore>()(
                     streaming: true,
                     id: userMessage.id! + 1,
                     model: modelConfig.model,
-                    type: "image",
+                    type: op == "UPSCALE" ? "image" : "imageResult",
+                    clickedList: [],
                   });
                   const sessionIndex = get().currentSessionIndex;
                   const messageIndex =
@@ -343,6 +376,7 @@ export const useChatStore = create<ChatStore>()(
                   get().updateCurrentSession((session) => {
                     session.messages.push(imgMsg);
                     imgMsg.content = `![${response.result.prompt}](${response.result.imageUrl})`;
+                    imgMsg.imageId = response.result.imageId;
                     imgMsg.streaming = false;
                   });
                   get().onNewMessage(botMessage);
@@ -350,6 +384,8 @@ export const useChatStore = create<ChatStore>()(
                     sessionIndex,
                     imgMsg.id ?? messageIndex,
                   );
+                } else if (response.result.status > 2) {
+                  clearInterval(timer);
                 }
               }
             }, 5000);
