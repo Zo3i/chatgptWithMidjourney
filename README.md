@@ -23,6 +23,10 @@ One-Click to deploy well-designed ChatGPT web UI on Vercel.
 
 ### 如何使用Midjourney
 - 在.env.local(没有要创建)中添加MIDJOURNEY_API_KEY、MIDJOURNEY_API_URL。接口地址和key
+  - 示例: 
+    OPENAI_API_KEY=sk-xxx
+    MIDJOURNEY_API_KEY=35fc0377-ca20-4244-8e44-7a930b7591ab
+    MIDJOURNEY_API_URL=https://api.zxx.im/
 - 输入/mj 即可使用绘图模式
 - 绘图期间请勿刷新网页、切换别的聊天窗口。
 
