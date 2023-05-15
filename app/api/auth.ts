@@ -56,7 +56,7 @@ export function auth(req: NextRequest) {
   } else {
     return {
       error: true,
-      msg: "Empty Midjourney Api Key",
+      msg: "Empty Midjourney Api Key. Go to: [MidjourneyAPI](https://midjourneyapi.zxx.im/)",
     };
   }
 

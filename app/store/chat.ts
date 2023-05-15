@@ -389,6 +389,8 @@ export const useChatStore = create<ChatStore>()(
                 }
               }
             }, 5000);
+          } else if (res.error) {
+            botMessage.content = res.msg;
           } else {
             botMessage.content = res.message;
           }
