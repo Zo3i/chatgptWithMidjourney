@@ -48,18 +48,6 @@ export function auth(req: NextRequest) {
     };
   }
 
-  // 注入midjourneyAPI
-  const midJourneyKey = serverConfig.midJourneyKey;
-  console.log(">>> 注入midjourneyAPI: ", midJourneyKey);
-  if (midJourneyKey) {
-    req.headers.set("token", midJourneyKey);
-  } else {
-    return {
-      error: true,
-      msg: "Empty Midjourney Api Key. Go to: [MidjourneyAPI](https://midjourneyapi.zxx.im/)",
-    };
-  }
-
   // if user does not provide an api key, inject system api key
   if (!token) {
     const apiKey = serverConfig.apiKey;
@@ -75,6 +63,37 @@ export function auth(req: NextRequest) {
     }
   } else {
     console.log("[Auth] use user api key");
+  }
+
+  return {
+    error: false,
+  };
+}
+
+export function authMj(req: NextRequest) {
+  const authToken = req.headers.get("Authorization") ?? "";
+
+  // check if it is openai api key or user token
+  const { accessCode, apiKey: token } = parseApiKey(authToken);
+
+  const hashedCode = md5.hash(accessCode ?? "").trim();
+
+  console.log("[Auth] allowed hashed codes: ", [...serverConfig.codes]);
+  console.log("[Auth] got access code:", accessCode);
+  console.log("[Auth] hashed access code:", hashedCode);
+  console.log("[User IP] ", getIP(req));
+  console.log("[Time] ", new Date().toLocaleString());
+
+  // 注入midjourneyAPI
+  const midJourneyKey = serverConfig.midJourneyKey;
+  console.log(">>> 注入midjourneyAPI: ", midJourneyKey);
+  if (midJourneyKey) {
+    req.headers.set("token", midJourneyKey);
+  } else {
+    return {
+      error: true,
+      msg: "Empty Midjourney Api Key. Go to: [MidjourneyAPI](https://midjourneyapi.zxx.im/)",
+    };
   }
 
   return {

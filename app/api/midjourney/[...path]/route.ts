@@ -1,6 +1,6 @@
 import { createParser } from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "../../auth";
+import { auth, authMj } from "../../auth";
 import { requestMidJourney } from "../../common";
 
 async function createStream(res: Response) {
@@ -49,7 +49,7 @@ async function handle(
 ) {
   console.log("[Midjourney Route] params ", params);
 
-  const authResult = auth(req);
+  const authResult = authMj(req);
   if (authResult.error) {
     return NextResponse.json(authResult, {
       status: 401,
