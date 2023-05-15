@@ -35,6 +35,8 @@
 - 绘图期间请勿刷新网页、切换别的聊天窗口。
 - [MidjourneyAPI](https://midjourneyapi.zxx.im/)
 
+![](https://s3.bmp.ovh/imgs/2023/05/15/f0c7f67ef3eb075b.png)
+
 ## 保持更新
 
 如果你按照上述步骤一键部署了自己的项目，可能会发现总是提示“存在更新”的问题，这是由于 Vercel 会默认为你创建一个新项目而不是 fork 本项目，这会导致无法正确地检测更新。
