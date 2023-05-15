@@ -25,7 +25,7 @@ export type Message = ChatCompletionResponseMessage & {
   model?: ModelType;
   taskId?: string;
   imageId?: string;
-  clickedList?: [];
+  clickedList?: string[];
   type?: "chat" | "image" | "imageResult";
 };
 
@@ -283,7 +283,16 @@ export const useChatStore = create<ChatStore>()(
           session.messages.push(botMessage);
         });
 
-        let res = {};
+        let res = {
+          success: false,
+          result: {
+            msg: "",
+            taskId: "",
+          },
+          error: "",
+          msg: "",
+          message: "",
+        };
         // make request
         console.log("[User Input] ", sendMessages);
         let lastMessage = sendMessages[sendMessages.length - 1];
@@ -325,7 +334,7 @@ export const useChatStore = create<ChatStore>()(
             res = await requestImage("CREATE_IMAGE", true, lastMessage.content);
           }
 
-          let hisMsg = [];
+          let hisMsg = new Array();
           console.log(">>> 绘图结果：", res);
           get().updateCurrentSession((session) => {
             botMessage.streaming = false;

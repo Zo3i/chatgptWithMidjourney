@@ -621,6 +621,9 @@ export function Chat() {
 
   const UPSCALE = (messages: Message, index: any) => {
     setIsLoading(true);
+    if (!messages.clickedList) {
+      messages.clickedList = [];
+    }
     messages.clickedList.push("u" + index);
     let opMsg = `/mj UPSCALE|${messages.imageId}|${index}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
@@ -629,6 +632,9 @@ export function Chat() {
 
   const VARIATION = (messages: Message, index: any) => {
     setIsLoading(true);
+    if (!messages.clickedList) {
+      messages.clickedList = [];
+    }
     messages.clickedList.push("v" + index);
     let opMsg = `/mj VARIATION|${messages.imageId}|${index}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
@@ -637,6 +643,9 @@ export function Chat() {
 
   const RESET = (messages: Message) => {
     setIsLoading(true);
+    if (!messages.clickedList) {
+      messages.clickedList = [];
+    }
     messages.clickedList.push("r");
     let opMsg = `/mj RESET|${messages.imageId}`;
     chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
@@ -808,9 +817,11 @@ export function Chat() {
                         <div className={styles["imageResult"]}>
                           <button
                             className={
-                              message.clickedList.includes("u1")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("u1")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => UPSCALE(message, 1)}
                           >
@@ -818,9 +829,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("u2")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("u2")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => UPSCALE(message, 2)}
                           >
@@ -828,9 +841,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("u3")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("u3")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => UPSCALE(message, 3)}
                           >
@@ -838,9 +853,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("u4")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("u4")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => UPSCALE(message, 4)}
                           >
@@ -848,9 +865,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("v1")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("v1")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => VARIATION(message, 1)}
                           >
@@ -858,9 +877,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("v2")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("v2")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => VARIATION(message, 2)}
                           >
@@ -868,9 +889,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("v3")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("v3")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => VARIATION(message, 3)}
                           >
@@ -878,9 +901,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("v4")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("v4")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => VARIATION(message, 4)}
                           >
@@ -888,9 +913,11 @@ export function Chat() {
                           </button>
                           <button
                             className={
-                              message.clickedList.includes("r")
-                                ? styles["imageResultBntClick"]
-                                : styles["imageResultBnt"]
+                              message.clickedList
+                                ? message.clickedList.includes("r")
+                                  ? styles["imageResultBntClick"]
+                                  : styles["imageResultBnt"]
+                                : ""
                             }
                             onClick={() => RESET(message)}
                           >
