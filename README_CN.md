@@ -33,6 +33,7 @@
    ```
 - 输入/mj 即可使用绘图模式
 - 绘图期间请勿刷新网页、切换别的聊天窗口。
+- [MidjourneyAPI](https://midjourneyapi.zxx.im/)
 
 ## 保持更新
 
