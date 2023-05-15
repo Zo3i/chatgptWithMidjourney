@@ -23,6 +23,17 @@
 3. 部署完毕后，即可开始使用；
 4. （可选）[绑定自定义域名](https://vercel.com/docs/concepts/projects/domains/add-a-domain)：Vercel 分配的域名 DNS 在某些区域被污染了，绑定自定义域名即可直连。
 
+### 如何使用Midjourney
+- 在.env.local(没有要创建)中添加MIDJOURNEY_API_KEY、MIDJOURNEY_API_URL。接口地址和key
+  ```local
+   示例:
+   OPENAI_API_KEY=sk-xxx
+   MIDJOURNEY_API_KEY=35fc0377-ca20-4244-8e44-7a930b7591ab
+   MIDJOURNEY_API_URL=https://api.zxx.im/
+   ```
+- 输入/mj 即可使用绘图模式
+- 绘图期间请勿刷新网页、切换别的聊天窗口。
+
 ## 保持更新
 
 如果你按照上述步骤一键部署了自己的项目，可能会发现总是提示“存在更新”的问题，这是由于 Vercel 会默认为你创建一个新项目而不是 fork 本项目，这会导致无法正确地检测更新。
