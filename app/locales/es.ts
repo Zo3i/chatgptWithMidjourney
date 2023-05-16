@@ -141,6 +141,28 @@ const es: LocaleType = {
       SubTitle: "Utiliza tu clave para ignorar el límite de código de acceso",
       Placeholder: "Clave de la API de OpenAI",
     },
+    MjKey: {
+      Title: "Clave de API de MJ",
+      SubTitle: "Configuración rápida de la clave de API de MJ",
+      Placeholder: "Clave de API de Midjourney",
+    },
+
+    MjApiUrl: {
+      Title: "URL de API de MJ",
+      SubTitle: "Configuración de la URL de API de MJ",
+      Placeholder: "URL de API de Midjourney",
+    },
+
+    MjMode: {
+      name: "Modo rápido de MJ",
+      fastMode: false,
+    },
+
+    MJAccessCode: {
+      Title: "Código de acceso",
+      SubTitle: "El administrador ha habilitado el acceso encriptado",
+      Placeholder: "Por favor, ingresa el código de acceso",
+    },
     Usage: {
       Title: "Saldo de la cuenta",
       SubTitle(used: any, total: any) {

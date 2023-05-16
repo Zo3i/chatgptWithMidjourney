@@ -143,6 +143,29 @@ const de: LocaleType = {
         "Verwenden Sie Ihren Schlüssel, um das Zugangscode-Limit zu ignorieren",
       Placeholder: "OpenAI API-Schlüssel",
     },
+    MjKey: {
+      Title: "MJ API-Schlüssel",
+      SubTitle: "Schnelle Konfiguration des MJ API-Schlüssels",
+      Placeholder: "Midjourney API-Schlüssel",
+    },
+
+    MjApiUrl: {
+      Title: "MJ API-URL",
+      SubTitle: "Konfiguration der MJ API-URL",
+      Placeholder: "Midjourney API-URL",
+    },
+
+    MjMode: {
+      name: "MJ Schnellmodus-Kartenerstellung",
+      fastMode: false,
+    },
+
+    MJAccessCode: {
+      Title: "Zugangscode",
+      SubTitle:
+        "Der Administrator hat die verschlüsselte Zugriffsoption aktiviert",
+      Placeholder: "Bitte geben Sie den Zugangscode ein",
+    },
     Usage: {
       Title: "Kontostand",
       SubTitle(used: any, total: any) {

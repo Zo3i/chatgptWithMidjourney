@@ -157,6 +157,12 @@ const cn = {
       fastMode: false,
     },
 
+    MJAccessCode: {
+      Title: "访问密码",
+      SubTitle: "管理员已开启加密访问",
+      Placeholder: "请输入访问密码",
+    },
+
     Usage: {
       Title: "余额查询",
       SubTitle(used: any, total: any) {
@@ -167,11 +173,6 @@ const cn = {
       NoAccess: "输入 API Key 或访问密码查看余额",
     },
     AccessCode: {
-      Title: "访问密码",
-      SubTitle: "管理员已开启加密访问",
-      Placeholder: "请输入访问密码",
-    },
-    MJAccessCode: {
       Title: "访问密码",
       SubTitle: "管理员已开启加密访问",
       Placeholder: "请输入访问密码",

@@ -142,6 +142,28 @@ const it: LocaleType = {
         "Utilizzare la chiave per ignorare il limite del codice di accesso",
       Placeholder: "OpenAI API Key",
     },
+    MjKey: {
+      Title: "Chiave API di MJ",
+      SubTitle: "Configurazione rapida della chiave API di MJ",
+      Placeholder: "Chiave API di Midjourney",
+    },
+
+    MjApiUrl: {
+      Title: "URL API di MJ",
+      SubTitle: "Configurazione dell'URL API di MJ",
+      Placeholder: "URL API di Midjourney",
+    },
+
+    MjMode: {
+      name: "Modalità rapida di MJ",
+      fastMode: false,
+    },
+
+    MJAccessCode: {
+      Title: "Codice di accesso",
+      SubTitle: "L'amministratore ha abilitato l'accesso crittografato",
+      Placeholder: "Inserisci il codice di accesso",
+    },
     Usage: {
       Title: "Bilancio Account",
       SubTitle(used: any, total: any) {

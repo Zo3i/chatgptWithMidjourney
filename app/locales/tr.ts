@@ -141,6 +141,28 @@ const tr: LocaleType = {
       SubTitle: "Erişim kodu sınırını yoksaymak için anahtarınızı kullanın",
       Placeholder: "OpenAI API Anahtarı",
     },
+    MjKey: {
+      Title: "MJ API Anahtarı",
+      SubTitle: "MJ API Anahtarını Hızlıca Yapılandır",
+      Placeholder: "Midjourney API Anahtarı",
+    },
+
+    MjApiUrl: {
+      Title: "MJ API URL'si",
+      SubTitle: "MJ API URL'sini Yapılandır",
+      Placeholder: "Midjourney API URL'si",
+    },
+
+    MjMode: {
+      name: "MJ Hızlı Harita Modu",
+      fastMode: false,
+    },
+
+    MJAccessCode: {
+      Title: "Erişim Kodu",
+      SubTitle: "Yönetici şifreli erişimi etkinleştirdi",
+      Placeholder: "Lütfen erişim kodunu girin",
+    },
     Usage: {
       Title: "Hesap Bakiyesi",
       SubTitle(used: any, total: any) {
