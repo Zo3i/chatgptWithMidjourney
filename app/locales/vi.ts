@@ -140,6 +140,28 @@ const vi: LocaleType = {
       SubTitle: "Sử dụng khóa của bạn để bỏ qua giới hạn mã truy cập",
       Placeholder: "OpenAI API Key",
     },
+    MjKey: {
+      Title: "Khóa API MJ",
+      SubTitle: "Cấu hình nhanh Khóa API MJ",
+      Placeholder: "Khóa API Midjourney",
+    },
+
+    MjApiUrl: {
+      Title: "URL API MJ",
+      SubTitle: "Cấu hình URL API MJ",
+      Placeholder: "URL API Midjourney",
+    },
+
+    MjMode: {
+      name: "Chế độ Nhanh MJ",
+      fastMode: false,
+    },
+
+    MJAccessCode: {
+      Title: "Mã Truy cập",
+      SubTitle: "Quản trị viên đã bật chế độ truy cập mã hóa",
+      Placeholder: "Vui lòng nhập mã truy cập",
+    },
     Usage: {
       Title: "Hạn mức tài khoản",
       SubTitle(used: any, total: any) {
