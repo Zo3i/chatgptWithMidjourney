@@ -13,8 +13,14 @@ export interface AccessControlStore {
   hideUserApiKey: boolean;
   openaiUrl: string;
   midJourneyAPI: string;
+  midJourneyKey: string;
+  midJourneyAPIURL: string;
+  mjMode: boolean;
 
+  updateMJMode: (_: boolean) => void;
   updateToken: (_: string) => void;
+  updateMJKey: (_: string) => void;
+  updateAPIURL: (_: string) => void;
   updateCode: (_: string) => void;
   enabledAccessControl: () => boolean;
   isAuthorized: () => boolean;
@@ -32,6 +38,9 @@ export const useAccessStore = create<AccessControlStore>()(
       hideUserApiKey: false,
       openaiUrl: "/api/openai/",
       midJourneyAPI: "/api/midjourney/",
+      midJourneyKey: "",
+      midJourneyAPIURL: "",
+      mjMode: true,
 
       enabledAccessControl() {
         get().fetch();
@@ -43,6 +52,15 @@ export const useAccessStore = create<AccessControlStore>()(
       },
       updateToken(token: string) {
         set(() => ({ token }));
+      },
+      updateMJKey(midJourneyKey: string) {
+        set(() => ({ midJourneyKey }));
+      },
+      updateAPIURL(midJourneyAPIURL: string) {
+        set(() => ({ midJourneyAPIURL }));
+      },
+      updateMJMode(mjMode: boolean) {
+        set(() => ({ mjMode }));
       },
       isAuthorized() {
         get().fetch();

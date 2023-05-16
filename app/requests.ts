@@ -69,6 +69,9 @@ export function getHeaders() {
   const makeBearer = (token: string) => `Bearer ${token.trim()}`;
   const validString = (x: string) => x && x.length > 0;
 
+  // mj key
+  headers.token = accessStore.midJourneyKey;
+
   // use user's api key first
   if (validString(accessStore.token)) {
     headers.Authorization = makeBearer(accessStore.token);
@@ -134,7 +137,8 @@ export async function requestImage(
   try {
     const midJourneyAPI = useAccessStore.getState().midJourneyAPI;
     prompt = prompt?.replaceAll("/mj", "");
-
+    // mj 快慢制图
+    fast = useAccessStore.getState().mjMode;
     const req: RequestBody = makeRequestImageParam(action, fast, {
       prompt,
       index,
