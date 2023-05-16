@@ -331,7 +331,7 @@ export const useChatStore = create<ChatStore>()(
               ops[1],
             );
           } else {
-            res = await requestImage("CREATE_IMAGE", false, lastMessage.content);
+            res = await requestImage("CREATE_IMAGE", true, lastMessage.content);
           }
 
           let hisMsg = new Array();
