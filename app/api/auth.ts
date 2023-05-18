@@ -76,9 +76,9 @@ export function authMj(req: NextRequest) {
   console.log("[Time] ", new Date().toLocaleString());
 
   // 注入midjourneyAPI
-  const midJourneyKey = serverConfig.midJourneyKey
-    ? serverConfig.midJourneyKey
-    : req.headers.get("token");
+  const midJourneyKey = req.headers.get("token")
+    ? req.headers.get("token")
+    : serverConfig.midJourneyKey;
   console.log(">>> 注入midjourneyAPI: ", midJourneyKey);
   if (midJourneyKey) {
     req.headers.set("token", midJourneyKey);
