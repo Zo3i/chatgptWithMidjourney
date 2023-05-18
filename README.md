@@ -223,12 +223,9 @@ yarn dev
 ### Docker (Recommended)
 
 ```shell
-docker pull yidadaa/chatgpt-next-web
+docker pull zo3i/chatgptwithmidjourney
 
-docker run -d -p 3000:3000 \
-   -e OPENAI_API_KEY="sk-xxxx" \
-   -e CODE="your-password" \
-   yidadaa/chatgpt-next-web
+docker run -d -p 3000:3000 -e OPENAI_API_KEY="sk-xxxx" -e CODE="your-password" zo3i/chatgptwithmidjourney
 ```
 
 You can start service behind a proxy:
@@ -238,13 +235,7 @@ docker run -d -p 3000:3000 \
    -e OPENAI_API_KEY="sk-xxxx" \
    -e CODE="your-password" \
    -e PROXY_URL="http://localhost:7890" \
-   yidadaa/chatgpt-next-web
-```
-
-### Shell
-
-```shell
-bash <(curl -s https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/scripts/setup.sh)
+   zo3i/chatgptwithmidjourney
 ```
 
 ## Screenshots
