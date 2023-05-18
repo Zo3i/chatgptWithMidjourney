@@ -142,12 +142,12 @@ OPENAI_API_KEY=<your api key here>
 > ⚠️ 注意：docker 版本在大多数时间都会落后最新的版本 1 到 2 天，所以部署后会持续出现“存在更新”的提示，属于正常现象。
 
 ```shell
-docker pull yidadaa/chatgpt-next-web
+docker pull zo3i/chatgptwithmidjourney
 
 docker run -d -p 3000:3000 \
    -e OPENAI_API_KEY="sk-xxxx" \
    -e CODE="页面访问密码" \
-   yidadaa/chatgpt-next-web
+   zo3i/chatgptwithmidjourney
 ```
 
 你也可以指定 proxy：
@@ -158,20 +158,11 @@ docker run -d -p 3000:3000 \
    -e CODE="页面访问密码" \
    --net=host \
    -e PROXY_URL="http://127.0.0.1:7890" \
-   yidadaa/chatgpt-next-web
+   zo3i/chatgptwithmidjourney
 ```
 
 如果你需要指定其他环境变量，请自行在上述命令中增加 `-e 环境变量=环境变量值` 来指定。
 
-### 本地部署
-
-在控制台运行下方命令：
-
-```shell
-bash <(curl -s https://raw.githubusercontent.com/Yidadaa/ChatGPT-Next-Web/main/scripts/setup.sh)
-```
-
-⚠️ 注意：如果你安装过程中遇到了问题，请使用 docker 部署。
 
 ## 鸣谢
 
