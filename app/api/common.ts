@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 
 const OPENAI_URL = "api.openai.com";
 const DEFAULT_PROTOCOL = "https";
-const DEFAULT_MJ_API_URL = "https://api.zxx.im";
+const DEFAULT_MJ_API_URL = "https://api.zxx.im/";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const MIDJOURNEY_URL = process.env.MIDJOURNEY_API_URL ?? DEFAULT_MJ_API_URL;
