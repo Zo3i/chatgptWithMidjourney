@@ -48,9 +48,14 @@ export async function requestOpenai(req: NextRequest) {
 
 export async function requestMidJourney(req: NextRequest) {
   const token = req.headers.get("token") ?? "";
+
   const reqPath = `${req.nextUrl.pathname}`.replaceAll("/api/midjourney/", "");
   console.log(">>>> [MidJourney Request] ", reqPath);
-  const midJourneyAPIPath = `${MIDJOURNEY_URL}` + reqPath;
+  const proxyUrl = req.nextUrl.searchParams.get("proxyUrl")
+    ? req.nextUrl.searchParams.get("proxyUrl")
+    : "";
+  const midJourneyAPIPath =
+    `${MIDJOURNEY_URL}` + reqPath + "?proxyUrl=" + proxyUrl;
   console.log(">>> 画图", midJourneyAPIPath);
   if (!token) {
     console.error("[Midjourney Request] invalid api key provided", token);
