@@ -15,6 +15,7 @@ const cn = {
       ChatList: "查看消息列表",
       CompressedHistory: "查看压缩后的历史 Prompt",
       Export: "导出聊天记录",
+      Open: "查看",
       Copy: "复制",
       Stop: "停止",
       Retry: "重试",
@@ -155,6 +156,11 @@ const cn = {
     MjMode: {
       name: "MJ 快速制图",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ 反向代理",
+      Placeholder: "包含http(s)//",
     },
 
     MJAccessCode: {

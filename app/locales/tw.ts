@@ -15,6 +15,7 @@ const tw: LocaleType = {
       ChatList: "查看訊息列表",
       CompressedHistory: "查看壓縮後的歷史 Prompt",
       Export: "匯出聊天紀錄",
+      Open: "開啟",
       Copy: "複製",
       Stop: "停止",
       Retry: "重試",
@@ -153,6 +154,11 @@ const tw: LocaleType = {
     MjMode: {
       name: "MJ 快速製圖",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ 代理",
+      Placeholder: "包含 http(s)//",
     },
 
     MJAccessCode: {
