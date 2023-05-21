@@ -22,19 +22,20 @@ One-Click to deploy well-designed ChatGPT web UI on Vercel.
 </div>
 
 ### 如何使用Midjourney
-- 在.env.local(没有要创建)中添加MIDJOURNEY_API_KEY、MIDJOURNEY_API_URL。接口地址和key
+- 在.env.local(没有要创建)中添加MIDJOURNEY_API_KEY、MIDJOURNEY_API_URL、MIDJOURNEY_IMG_PROXY（可选）。接口地址和key
   ```local
    示例:
    OPENAI_API_KEY=sk-xxx
    MIDJOURNEY_API_KEY=35fc0377-ca20-4244-8e44-7a930b7591ab
    MIDJOURNEY_API_URL=https://api.zxx.im/
+   MIDJOURNEY_IMG_PROXY=https://img.zxx.im
    ```
 - 输入/mj 即可使用绘图模式
 - 绘图期间请勿刷新网页、切换别的聊天窗口。
 - [MidjourneyAPI](https://midjourneyapi.zxx.im/)
 
-也可以直接在设置里面填写mj key即可调用绘图功能。
-<img width="810" alt="image" src="https://github.com/Zo3i/chatgptWithMidjourney/assets/30296801/d15f6c9a-9175-4399-bed8-8517db32fffe">
+也可以直接在设置里面填写mj key即可调用绘图功能。国内用户访问，可以配置反向代理，MIDJOURNEY_IMG_PROXY参数。
+<img width="779" alt="image" src="https://github.com/Zo3i/chatgptWithMidjourney/assets/30296801/e9c95f59-3232-404a-8cdf-5c9eefc8d424">
 
 
 ![](https://s3.bmp.ovh/imgs/2023/05/15/f0c7f67ef3eb075b.png)
