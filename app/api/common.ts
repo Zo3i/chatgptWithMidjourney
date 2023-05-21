@@ -6,6 +6,7 @@ const DEFAULT_MJ_API_URL = "https://api.zxx.im/";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const MIDJOURNEY_URL = process.env.MIDJOURNEY_API_URL ?? DEFAULT_MJ_API_URL;
+const MIDJOURNEY_IMG_PROXY = process.env.MIDJOURNEY_IMG_PROXY ?? "";
 
 export async function requestOpenai(req: NextRequest) {
   const authValue = req.headers.get("Authorization") ?? "";
@@ -51,9 +52,9 @@ export async function requestMidJourney(req: NextRequest) {
 
   const reqPath = `${req.nextUrl.pathname}`.replaceAll("/api/midjourney/", "");
   console.log(">>>> [MidJourney Request] ", reqPath);
-  const proxyUrl = req.nextUrl.searchParams.get("proxyUrl")
-    ? req.nextUrl.searchParams.get("proxyUrl")
-    : "";
+  let proxyUrl = req.nextUrl.searchParams.get("proxyUrl");
+  // 优先界面配置
+  proxyUrl = proxyUrl ? proxyUrl : MIDJOURNEY_IMG_PROXY;
   const midJourneyAPIPath =
     `${MIDJOURNEY_URL}` + reqPath + "?proxyUrl=" + proxyUrl;
   console.log(">>> 画图", midJourneyAPIPath);
