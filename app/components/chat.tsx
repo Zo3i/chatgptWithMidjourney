@@ -39,7 +39,6 @@ import {
   selectOrCopy,
   autoGrowTextArea,
   useMobileScreen,
-  openInNewWindow,
 } from "../utils";
 
 import dynamic from "next/dynamic";
@@ -789,12 +788,6 @@ export function Chat() {
                         onClick={() => copyToClipboard(message.content)}
                       >
                         {Locale.Chat.Actions.Copy}
-                      </div>
-                      <div
-                        className={styles["chat-message-top-action"]}
-                        onClick={() => openInNewWindow(message.content)}
-                      >
-                        {Locale.Chat.Actions.Open}
                       </div>
                     </div>
                   )}

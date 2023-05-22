@@ -16,7 +16,6 @@ const vi: LocaleType = {
       ChatList: "Xem danh sách chat",
       CompressedHistory: "Nén tin nhắn trong quá khứ",
       Export: "Xuất tất cả tin nhắn dưới dạng Markdown",
-      Open: "Mở",
       Copy: "Sao chép",
       Stop: "Dừng",
       Retry: "Thử lại",
@@ -156,11 +155,6 @@ const vi: LocaleType = {
     MjMode: {
       name: "Chế độ Nhanh MJ",
       fastMode: false,
-    },
-
-    MjProxyUrl: {
-      name: "MJ Proxy",
-      Placeholder: "Chứa http(s)//",
     },
 
     MJAccessCode: {

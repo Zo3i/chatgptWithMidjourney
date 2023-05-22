@@ -16,10 +16,8 @@ export interface AccessControlStore {
   midJourneyKey: string;
   midJourneyAPIURL: string;
   mjMode: boolean;
-  proxyUrl: string;
 
   updateMJMode: (_: boolean) => void;
-  updateMJProxyUrl: (_: string) => void;
   updateToken: (_: string) => void;
   updateMJKey: (_: string) => void;
   updateAPIURL: (_: string) => void;
@@ -43,7 +41,6 @@ export const useAccessStore = create<AccessControlStore>()(
       midJourneyKey: "",
       midJourneyAPIURL: "",
       mjMode: true,
-      proxyUrl: "",
 
       enabledAccessControl() {
         get().fetch();
@@ -64,9 +61,6 @@ export const useAccessStore = create<AccessControlStore>()(
       },
       updateMJMode(mjMode: boolean) {
         set(() => ({ mjMode }));
-      },
-      updateMJProxyUrl(proxyUrl: string) {
-        set(() => ({ proxyUrl }));
       },
       isAuthorized() {
         get().fetch();
