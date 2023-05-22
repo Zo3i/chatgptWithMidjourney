@@ -561,6 +561,16 @@ export function Settings() {
               }
             ></input>
           </ListItem>
+          <ListItem title={Locale.Settings.MjProxyUrl.name}>
+            <input
+              type="input"
+              value={accessStore.proxyUrl}
+              placeholder={Locale.Settings.MjProxyUrl.Placeholder}
+              onChange={(e) =>
+                accessStore.updateMJProxyUrl(e.currentTarget.value)
+              }
+            ></input>
+          </ListItem>
         </List>
 
         <List>

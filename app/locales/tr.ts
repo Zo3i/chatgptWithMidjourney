@@ -16,6 +16,7 @@ const tr: LocaleType = {
       ChatList: "Sohbet Listesine Git",
       CompressedHistory: "Sıkıştırılmış Geçmiş Bellek Komutu",
       Export: "Tüm Mesajları Markdown Olarak Dışa Aktar",
+      Open: "Açık",
       Copy: "Kopyala",
       Stop: "Durdur",
       Retry: "Tekrar Dene",
@@ -156,6 +157,11 @@ const tr: LocaleType = {
     MjMode: {
       name: "MJ Hızlı Harita Modu",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ Proxy",
+      Placeholder: "http(s)// içerir",
     },
 
     MJAccessCode: {

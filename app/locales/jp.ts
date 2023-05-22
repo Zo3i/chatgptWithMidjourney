@@ -16,6 +16,7 @@ const jp: LocaleType = {
       ChatList: "メッセージリストを表示",
       CompressedHistory: "圧縮された履歴プロンプトを表示",
       Export: "チャット履歴をエクスポート",
+      Open: "表示する",
       Copy: "コピー",
       Stop: "停止",
       Retry: "リトライ",
@@ -158,6 +159,11 @@ const jp: LocaleType = {
     MjMode: {
       name: "MJクイックモード",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ プロキシ",
+      Placeholder: "http(s)//を含む",
     },
 
     MJAccessCode: {

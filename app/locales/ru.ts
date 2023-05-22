@@ -16,6 +16,7 @@ const ru: LocaleType = {
       ChatList: "Перейти к списку чатов",
       CompressedHistory: "Сжатая история памяти",
       Export: "Экспортировать все сообщения в формате Markdown",
+      Open: "Открыть",
       Copy: "Копировать",
       Stop: "Остановить",
       Retry: "Повторить",
@@ -157,6 +158,11 @@ const ru: LocaleType = {
     MjMode: {
       name: "Быстрый режим MJ",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ Прокси",
+      Placeholder: "Содержит http(s)//",
     },
 
     MJAccessCode: {

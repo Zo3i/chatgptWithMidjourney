@@ -16,6 +16,7 @@ const cs: LocaleType = {
       ChatList: "Přejít na seznam chatů",
       CompressedHistory: "Pokyn z komprimované paměti historie",
       Export: "Exportovat všechny zprávy jako Markdown",
+      Open: "Zobrazit",
       Copy: "Kopírovat",
       Stop: "Zastavit",
       Retry: "Zopakovat",
@@ -156,6 +157,11 @@ const cs: LocaleType = {
     MjMode: {
       name: "MJ Rychlý režim",
       fastMode: false,
+    },
+
+    MjProxyUrl: {
+      name: "MJ Proxy",
+      Placeholder: "Obsahuje http(s)//",
     },
 
     MJAccessCode: {
