@@ -355,7 +355,7 @@ export const useChatStore = create<ChatStore>()(
               let response = await requestImageResult(res.result.taskId);
               console.log(">>> 正在绘图：", response);
               if (response.success) {
-                if (status == 0 || status !== response.result.status) {
+                if (status !== response.result.status) {
                   hisMsg.push(response.result.msg);
                   let hisMsgGether = "";
                   if (hisMsg.length > 1) {
@@ -369,6 +369,29 @@ export const useChatStore = create<ChatStore>()(
                   }
                   botMessage.content = hisMsgGether;
                   status = response.result.status;
+                  get().updateCurrentSession((session) => {
+                    botMessage.streaming = false;
+                  });
+                } else if (response.result.status == 1) {
+                  // 替换最后一条消息
+                  hisMsg.pop();
+                  hisMsg.push(response.result.msg);
+                  let hisMsgGether = "";
+                  if (hisMsg.length > 1) {
+                    // 除了最后一次全部加 ～～～～
+                    for (var i = 0; i < hisMsg.length - 1; i++) {
+                      hisMsgGether += "~~" + hisMsg[i] + "~~" + "\n";
+                    }
+                    hisMsgGether += hisMsg[hisMsg.length - 1];
+                  } else {
+                    hisMsgGether = hisMsg[0];
+                  }
+                  botMessage.content = hisMsgGether;
+                  if (response.result.imageUrl) {
+                    botMessage.content +=
+                      "\n" +
+                      `![${response.result.prompt}](${response.result.imageUrl})`;
+                  }
                   get().updateCurrentSession((session) => {
                     botMessage.streaming = false;
                   });
