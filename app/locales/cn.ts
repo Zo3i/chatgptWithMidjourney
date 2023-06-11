@@ -4,7 +4,7 @@ const cn = {
   WIP: "该功能仍在开发中……",
   Error: {
     Unauthorized:
-      "访问密码不正确或为空，请前往[设置](/#/settings)页输入正确的访问密码，或者填入你自己的 OpenAI API Key。",
+      "请点击左下角[设置](/#/settings)输入你的Api Key!  如果没有请前往[鸿马商城](https://hongma.tech)低价购买（注册后购买更优惠），Midjourney api[点此申请](https://midjourneyapi.zxx.im)，  更多资讯与常见问题请前往[鸿马论坛](https://hongma.uk)",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
@@ -199,7 +199,7 @@ const cn = {
   },
   Store: {
     DefaultTopic: "新的聊天",
-    BotHello: "有什么可以帮你的吗",
+    BotHello: "Hi! 我是您的私人小助手，有什么可以帮助您的吗？更多资讯请前往[鸿马论坛](https://hongma.uk)。API Key额度用完请前往[鸿马商城](https://hongma.tech)购买（注册后价格更低哦），  Midjourney api[点此申请](https://midjourneyapi.zxx.im)，  更多资讯与常见问题请前往[鸿马论坛](https://hongma.uk)",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) =>
