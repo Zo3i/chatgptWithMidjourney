@@ -1,40 +1,6 @@
-import { createParser } from "eventsource-parser";
 import { NextRequest, NextResponse } from "next/server";
 import { auth, authMj } from "../../auth";
 import { requestMidJourney } from "../../common";
-
-async function createStream(res: Response) {
-  const encoder = new TextEncoder();
-  const decoder = new TextDecoder();
-
-  const stream = new ReadableStream({
-    async start(controller) {
-      function onParse(event: any) {
-        if (event.type === "event") {
-          const data = event.data;
-          if (data === "[DONE]") {
-            controller.close();
-            return;
-          }
-          try {
-            const json = JSON.parse(data);
-            const text = json.choices[0].delta.content;
-            const queue = encoder.encode(text);
-            controller.enqueue(queue);
-          } catch (e) {
-            controller.error(e);
-          }
-        }
-      }
-
-      const parser = createParser(onParse);
-      for await (const chunk of res.body as any) {
-        parser.feed(decoder.decode(chunk, { stream: true }));
-      }
-    },
-  });
-  return stream;
-}
 
 function formatResponse(msg: any) {
   const jsonMsg = ["```json\n", JSON.stringify(msg, null, "  "), "\n```"].join(
@@ -60,14 +26,6 @@ async function handle(
     const api = await requestMidJourney(req);
 
     const contentType = api.headers.get("Content-Type") ?? "";
-
-    // streaming response
-    if (contentType.includes("stream")) {
-      const stream = await createStream(api);
-      const res = new Response(stream);
-      res.headers.set("Content-Type", contentType);
-      return res;
-    }
 
     // try to parse error msg
     try {

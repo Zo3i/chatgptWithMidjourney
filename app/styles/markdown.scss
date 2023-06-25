@@ -209,9 +209,7 @@
 
 .markdown-body img {
   border-style: none;
-  //max-width: 100%;
-  width: 300px;
-  hight: 300px;
+  max-width: 100%;
   box-sizing: content-box;
   background-color: var(--color-canvas-default);
 }
@@ -1118,4 +1116,16 @@
 
 .markdown-body ::-webkit-calendar-picker-indicator {
   filter: invert(50%);
+}
+
+.markdown-body .mermaid {
+  border: var(--border-in-light);
+  margin-bottom: 10px;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: var(--white);
+}
+
+#dmermaid {
+  display: none;
 }
