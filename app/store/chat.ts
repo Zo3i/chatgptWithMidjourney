@@ -23,7 +23,7 @@ export type ChatMessage = RequestMessage & {
   taskId?: string;
   imageId?: string;
   clickedList?: string[];
-  type?: "chat" | "image" | "imageResult";
+  type?: "chat" | "image" | "imageResult" | "imageUPSCALE";
 };
 
 export function createMessage(override: Partial<ChatMessage>): ChatMessage {
@@ -333,6 +333,26 @@ export const useChatStore = create<ChatStore>()(
               undefined,
               ops[1],
             );
+          } else if (lastMessage.content.startsWith("/mj VARY")) {
+            let ops = lastMessage.content.split("|");
+            op = "VARY";
+            res = await requestImage(
+              "VARY",
+              true,
+              undefined,
+              Number(ops[2]),
+              ops[1],
+            );
+          } else if (lastMessage.content.startsWith("/mj ZOOM")) {
+            let ops = lastMessage.content.split("|");
+            op = "ZOOM";
+            res = await requestImage(
+              "ZOOM",
+              true,
+              undefined,
+              Number(ops[2]),
+              ops[1],
+            );
           } else {
             res = await requestImage(
               "CREATE_IMAGE",
@@ -408,7 +428,7 @@ export const useChatStore = create<ChatStore>()(
                     streaming: true,
                     id: userMessage.id! + 1,
                     model: modelConfig.model,
-                    type: op == "UPSCALE" ? "image" : "imageResult",
+                    type: op == "UPSCALE" ? "imageUPSCALE" : "imageResult",
                     clickedList: [],
                   });
                   const sessionIndex = get().currentSessionIndex;

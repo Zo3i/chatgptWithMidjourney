@@ -749,6 +749,28 @@ export function Chat() {
     scrollToBottom();
   };
 
+  const Vary = (messages: RenderMessage, index: any) => {
+    setIsLoading(true);
+    if (!messages.clickedList) {
+      messages.clickedList = [];
+    }
+    messages.clickedList.push("vary-" + index);
+    let opMsg = `/mj VARY|${messages.imageId}|${index}`;
+    chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+    scrollToBottom();
+  };
+
+  const Zoom = (messages: RenderMessage, index: any) => {
+    setIsLoading(true);
+    if (!messages.clickedList) {
+      messages.clickedList = [];
+    }
+    messages.clickedList.push("zoom-" + index);
+    let opMsg = `/mj ZOOM|${messages.imageId}|${index}`;
+    chatStore.onUserInput(opMsg).then(() => setIsLoading(false));
+    scrollToBottom();
+  };
+
   const RESET = (messages: RenderMessage) => {
     setIsLoading(true);
     if (!messages.clickedList) {
@@ -1036,6 +1058,60 @@ export function Chat() {
                               onClick={() => RESET(message)}
                             >
                               Reset
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {message.type && message.type == "imageUPSCALE" && (
+                        <div>
+                          <div className={styles["imageResult"]}>
+                            <button
+                              className={
+                                message.clickedList
+                                  ? message.clickedList.includes("vary-1")
+                                    ? styles["imageResultBntClick"]
+                                    : styles["imageResultBnt"]
+                                  : ""
+                              }
+                              onClick={() => Vary(message, 1)}
+                            >
+                              Vary(Strong)
+                            </button>
+                            <button
+                              className={
+                                message.clickedList
+                                  ? message.clickedList.includes("vary-0")
+                                    ? styles["imageResultBntClick"]
+                                    : styles["imageResultBnt"]
+                                  : ""
+                              }
+                              onClick={() => Vary(message, 0)}
+                            >
+                              Vary(Subtle)
+                            </button>
+                            <button
+                              className={
+                                message.clickedList
+                                  ? message.clickedList.includes("zoom-50")
+                                    ? styles["imageResultBntClick"]
+                                    : styles["imageResultBnt"]
+                                  : ""
+                              }
+                              onClick={() => Zoom(message, 50)}
+                            >
+                              ZoomOut2x
+                            </button>
+                            <button
+                              className={
+                                message.clickedList
+                                  ? message.clickedList.includes("zoom-75")
+                                    ? styles["imageResultBntClick"]
+                                    : styles["imageResultBnt"]
+                                  : ""
+                              }
+                              onClick={() => Zoom(message, 75)}
+                            >
+                              ZoomOut1.5x
                             </button>
                           </div>
                         </div>
