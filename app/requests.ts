@@ -156,9 +156,7 @@ export async function requestImage(
 export async function requestImageResult(taskId: string) {
   try {
     const midJourneyAPI = useAccessStore.getState().midJourneyAPI;
-    const proxyUrl = useAccessStore.getState().proxyUrl;
-    const path = "/v1/webhook/" + taskId + "?proxyUrl=" + proxyUrl;
-    const res = await requestMidjourney(path)({});
+    const res = await requestMidjourney("/v1/webhook/" + taskId)({});
     return res.json();
     // handle the response here, for example:
   } catch (error) {

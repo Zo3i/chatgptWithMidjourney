@@ -16,7 +16,6 @@ const es: LocaleType = {
       ChatList: "Ir a la lista de chats",
       CompressedHistory: "Historial de memoria comprimido",
       Export: "Exportar todos los mensajes como Markdown",
-      Open: "Ver",
       Copy: "Copiar",
       Stop: "Detener",
       Retry: "Reintentar",
@@ -157,11 +156,6 @@ const es: LocaleType = {
     MjMode: {
       name: "Modo rápido de MJ",
       fastMode: false,
-    },
-
-    MjProxyUrl: {
-      name: "MJ Proxy",
-      Placeholder: "Contiene http(s)//",
     },
 
     MJAccessCode: {
